@@ -1,7 +1,7 @@
 var titleState = {
 	create: function() {
 		var nameLabel = game.add.text(160, 80, 'Click anywhere to start', {
-			font: '14px Space Mono', fill: '#ffffff'
+			font: '72px Space Mono', fill: '#ffffff'
 		});
 		game.input.activePointer.capture = true;
 	},

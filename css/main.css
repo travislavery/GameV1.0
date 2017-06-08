@@ -1,0 +1,18 @@
+* {
+	background-color: black;
+	text-align: center;
+	overflow: auto;
+}
+body {
+	margin: 0px;
+}
+#gameDiv {
+	width: document.window.width;
+	height: document.window.height;
+	margin: auto;
+	display: flex;
+	resize: both;
+	overflow:auto;
+	text-align: center;
+	vertical-align: top;
+}
