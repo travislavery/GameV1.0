@@ -61,39 +61,6 @@ var playState={
 		bubbles = game.add.group();
 		bubbles.enableBody = true;
 		bubbleSpawn();
-//Replaced all this shit here with bubbleSpawn(), and bubbleTraits(bubble).
-		/*for (var i = 0; i < 8; i ++) {
-			var bubble = bubbles.create((1200*Math.random()), game.world.height + 10, 'bubble1');
-			var bubble2 = bubbles.create((1200*Math.random()), game.world.height + 10, 'bubble2');
-			bubble.anchor.setTo(0.5, 0.5);
-			bubble2.anchor.setTo(0.5, 0.5);
-			bubble.body.gravity.y = -5;
-			bubble2.body.gravity.y = -5;
-			bubble.body.bounce.y = .8;
-			bubble2.body.bounce.y = .8;
-			bubble.body.bounce.x = .8;
-			bubble2.body.bounce.x = .8;
-			bubble.body.collideWorldBounds=true;
-			bubble2.body.collideWorldBounds=true;
-			bubble.inputEnabled = true;
-			bubble2.inputEnabled = true;
-			bubble.input.enableDrag(true);
-			bubble2.input.enableDrag(true);
-			bubble.angle = Math.floor(Math.random()*360);
-			bubble2.angle = bubble.angle;
-			bubbleG.push(bubble);
-			bubbleG.push(bubble2);
-		}
-		for (var i = 0; i < 8; i ++) {
-			var bubble = bubbles.create((1200*Math.random()), game.world.height + 10, 'bubble2');
-			bubble.body.gravity.y = -5;
-			bubble.scale.setTo(1, 1);
-			bubble.body.bounce.y = .8;
-			bubble.body.bounce.x = .8;
-			bubble.body.collideWorldBounds=true;
-			bubble.inputEnabled = true;
-			bubble.input.enableDrag(true);
-		}*/
 		
 		scoreText = game.add.text(16, 600, 'Desire to be Drunk: 0', { fontSize: '32px', fill: '#ffffff' });
 		beerSpin = game.add.sprite(scoreText.x + 370, scoreText.y - 10, 'beerStein')
@@ -145,24 +112,7 @@ var playState={
 			drunkLevel = 0;
 			scoreText.text = 'Desire to be Drunk: '+ Math.round(drunkLevel*100)/100;
 		}
-
-
-		/*if (game.input.activePointer.circle.x === game.bubbles.circle.x) {
-			console.log('hello')
-		}
-		if (game.input.mousePointer.isDown) {
-			game.physics.arcade.moveToPointer(pointer, 300);
-			pointer.animations.play('spin');
-			if (Phaser.Rectangle.contains(pointer.body, game.input.x, game.input.y)) {
-				pointer.body.velocity.setTo(0,0);
-			}
-		} else {
-			pointer.body.velocity.setTo(0, 0);
-			pointer.animations.stop();
-
-		}*/
 	}
-	
 }
 function bubbleSpawn() {
 	for (var i = 0; i < 8; i++) {
