@@ -61,7 +61,7 @@ var playState={
 		bubbles = game.add.group();
 		bubbles.enableBody = true;
 		bubbleSpawn();
-
+//Replaced all this shit here with bubbleSpawn(), and bubbleTraits(bubble).
 		/*for (var i = 0; i < 8; i ++) {
 			var bubble = bubbles.create((1200*Math.random()), game.world.height + 10, 'bubble1');
 			var bubble2 = bubbles.create((1200*Math.random()), game.world.height + 10, 'bubble2');
@@ -94,8 +94,6 @@ var playState={
 			bubble.inputEnabled = true;
 			bubble.input.enableDrag(true);
 		}*/
-
-		/*player = game.add.sprite(32, game.world.height - 150, 'characters');*/
 		
 		scoreText = game.add.text(16, 600, 'Desire to be Drunk: 0', { fontSize: '32px', fill: '#ffffff' });
 		beerSpin = game.add.sprite(scoreText.x + 370, scoreText.y - 10, 'beerStein')
