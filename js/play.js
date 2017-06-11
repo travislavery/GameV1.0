@@ -11,6 +11,11 @@ var star;
 var music;
 var mute;
 var winText;
+var click;
+var left;
+var right;
+var bubbleG;
+var printme;
 
 var playState={
 	create: function(){
@@ -46,19 +51,38 @@ var playState={
 		runner.body.collideWorldBounds= true;
 		runner.animations.add('run', [5, 6, 7, 8], 10, true);
 
+		star = game.add.sprite(1100, 100, 'winObject');
+		game.physics.arcade.enable(star);
+		star.enableBody= true;
+		star.body.gravity.y= 300;
+		star.body.bounce.y= .5;
 		
-
+		bubbleG = [];
 		bubbles = game.add.group();
 		bubbles.enableBody = true;
-		for (var i = 0; i < 8; i ++) {
+		bubbleSpawn();
+
+		/*for (var i = 0; i < 8; i ++) {
 			var bubble = bubbles.create((1200*Math.random()), game.world.height + 10, 'bubble1');
+			var bubble2 = bubbles.create((1200*Math.random()), game.world.height + 10, 'bubble2');
+			bubble.anchor.setTo(0.5, 0.5);
+			bubble2.anchor.setTo(0.5, 0.5);
 			bubble.body.gravity.y = -5;
-			bubble.scale.setTo(1, 1);
+			bubble2.body.gravity.y = -5;
 			bubble.body.bounce.y = .8;
+			bubble2.body.bounce.y = .8;
 			bubble.body.bounce.x = .8;
+			bubble2.body.bounce.x = .8;
 			bubble.body.collideWorldBounds=true;
+			bubble2.body.collideWorldBounds=true;
 			bubble.inputEnabled = true;
+			bubble2.inputEnabled = true;
 			bubble.input.enableDrag(true);
+			bubble2.input.enableDrag(true);
+			bubble.angle = Math.floor(Math.random()*360);
+			bubble2.angle = bubble.angle;
+			bubbleG.push(bubble);
+			bubbleG.push(bubble2);
 		}
 		for (var i = 0; i < 8; i ++) {
 			var bubble = bubbles.create((1200*Math.random()), game.world.height + 10, 'bubble2');
@@ -69,7 +93,7 @@ var playState={
 			bubble.body.collideWorldBounds=true;
 			bubble.inputEnabled = true;
 			bubble.input.enableDrag(true);
-		}
+		}*/
 
 		/*player = game.add.sprite(32, game.world.height - 150, 'characters');*/
 		
@@ -79,16 +103,25 @@ var playState={
 		beerSpin.scale.setTo(.33,.33);
 		beerSpin.animations.add('spin', [0,1,2,3,4,5,6,7,8,9,10], 10, true);
 
-		star = game.add.sprite(1100, 100, 'winObject');
-		game.physics.arcade.enable(star);
-		star.enableBody= true;
-		star.body.gravity.y= 300;
-		star.body.bounce.y= .5;
+		
 
 		cursors = game.input.keyboard.createCursorKeys();
 		game.input.mouse.capture = true;
+		right = game.input.activePointer.rightButton;
+		left = game.input.activePointer.leftButton;
+		printme = left.x;
 	},
 	update: function(){
+		if(runner.x === 1100) {
+			beerDrop();
+		}
+		if(left.isDown) {
+			console.log(left.worldX);
+		}
+		if(bubbles) {
+			bubbleSpin(bubbleG);
+			pairedBubbles(bubbleG);
+		}
 		game.physics.arcade.collide(star, platforms);
 		game.physics.arcade.collide(runner, platforms);
 		game.physics.arcade.overlap(bubbles, ceiling, popBubble, null, this);
@@ -97,6 +130,8 @@ var playState={
 		game.physics.arcade.collide(bubbles, bubbles);
 		game.physics.arcade.overlap(bubbles, bubbles, bounceApart, null, this);
 		game.physics.arcade.overlap(runner, star, winGame, null, this);
+
+		
 
 		runner.body.velocity.x=0;
 		if (drunkLevel>0) {
@@ -114,7 +149,10 @@ var playState={
 		}
 
 
-		/*if (game.input.mousePointer.isDown) {
+		/*if (game.input.activePointer.circle.x === game.bubbles.circle.x) {
+			console.log('hello')
+		}
+		if (game.input.mousePointer.isDown) {
 			game.physics.arcade.moveToPointer(pointer, 300);
 			pointer.animations.play('spin');
 			if (Phaser.Rectangle.contains(pointer.body, game.input.x, game.input.y)) {
@@ -128,7 +166,44 @@ var playState={
 	}
 	
 }
+function bubbleSpawn() {
+	for (var i = 0; i < 8; i++) {
+		var bubble = bubbles.create((1200*Math.random()), game.world.height + 10, 'bubble1');
+		bubbleTraits(bubble);
+		bubbleG.push(bubble);
+		
+		var bubble2 = bubbles.create((1200*Math.random()), game.world.height + 10, 'bubble2');
+		bubbleTraits(bubble2);
+		bubbleG.push(bubble2);
+	}
+}
+function bubbleTraits(bubble) {
+	bubble.anchor.setTo(0.5, 0.5);
+	bubble.body.gravity.y = -5;
+	bubble.body.bounce.y = .8;
+	bubble.body.bounce.x = .8;
+	bubble.body.collideWorldBounds=true;
+	bubble.inputEnabled = true;
+	bubble.input.enableDrag(true);
+	bubble.angle = Math.floor(Math.random()*360);
+}
 
+function beerDrop() {
+	
+}
+
+function bubbleSpin(bubbleG) {
+	for (var i = 0; i < bubbleG.length; i++) {
+		bubbleG[i].angle += 1;
+	}
+}
+function pairedBubbles(bubbleG) {
+	for (var i = 0; i < bubbleG.length; i= i+2) {
+		if (bubbleG[i].isDragged) {
+			console.log(bubbleG[i+1].position)
+		}
+	}
+}
 function muteOnClick() {
 	music.mute =! music.mute;	
 }
