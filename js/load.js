@@ -2,7 +2,7 @@ var loadState={
 	preload: function() {
 		var loadingLabel = game.add.text(80, 150, 'loading...', {font: '30px Courier', fill: '#ffffff'});
 		game.load.audio('zeldaFTW', 'assets/music/lozow.mp3');
-		game.load.image('sky', 'assets/images/sunset.jpg');
+		game.load.image('sky', 'assets/images/ocean.jpg');
 		game.load.image('winObject', 'assets/images/beerWin.png')
 		game.load.image('ground', 'assets/images/streetOnly.png');
 		game.load.image('wall', 'assets/images/wall.png')

@@ -44,15 +44,13 @@ var playState={
 		var ceiling2 = blueCeiling.create(665, 0, 'blueSpike');
 		ceiling2.body.immovable = true;
 
-		music = game.sound.play('zeldaFTW');
+		//music = game.sound.play('zeldaFTW');
 		mute = game.add.button(570, game.world.height-710, 'muteButton', muteOnClick, this, 0, 2);
 
 		objects = game.add.group();
 		objects.enableBody = true;
-		for (var i = 0; i < 8; i++) {
-			var stand = objects.create((1200*Math.random()), game.world.height - (650 * Math.random()), 'cloud');
-			stand.body.immovable = true;
-		}
+		game.time.events.repeat(100, 8, cloudSpawn, this);
+		
 
 		runner = game.add.sprite(32, game.world.height-150, 'dude');
 		game.physics.arcade.enable(runner);
@@ -63,6 +61,7 @@ var playState={
 		
 		star = game.add.sprite(1100, 100, 'winObject');
 		game.physics.arcade.enable(star);
+		star.anchor.setTo(0.5, 0.5);
 		star.enableBody= true;
 		star.body.gravity.y= 300;
 		star.body.bounce.y= .5;
@@ -74,7 +73,10 @@ var playState={
 		redBubbles.inputEnabled = true;
 		blueBubbles = game.add.group();
 		blueBubbles.enableBody = true;
+		blueBubbles.inputEnabled = true;
 		game.time.events.repeat(1000, 8, bubbleSpawn, this);
+
+
 		
 		scoreText = game.add.text(16, 600, 'Desire to be Drunk: 0', { fontSize: '32px', fill: '#ffffff' });
 		beerSpin = game.add.sprite(scoreText.x + 370, scoreText.y - 10, 'beerStein')
@@ -87,6 +89,8 @@ var playState={
 
 		cursors = game.input.keyboard.createCursorKeys();
 		game.input.mouse.capture = true;
+
+
 		/*leftArrow = game.input.keyboard(Phaser.Keyboard.LEFT);
 		rightArrow = game.input.keyboard(Phaser.Keyboard.RIGHT);
 		downArrow = game.input.keyboard(Phaser.Keyboard.DOWN);
@@ -94,6 +98,8 @@ var playState={
 		right = game.input.activePointer.rightButton;
 		left = game.input.activePointer.leftButton;
 		printme = left.x;
+		spaceKey = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    	spaceKey.onDown.add(togglePause, this);
 	},
 	update: function(){
 		
@@ -114,11 +120,29 @@ var playState={
 		game.physics.arcade.overlap(blueBubbles, redBubbles, bounceApart, null, this);
 		game.physics.arcade.overlap(runner, star, winGame, null, this);
 		drunkNess(drunkLevel);
+		if (hasDriver) {
+			driver(driverNow);
+		}
 	}
 }
+
+function whatO() {
+
+}
+function togglePause() {
+    game.physics.arcade.isPaused = (game.physics.arcade.isPaused) ? false : true;
+}
+var driverNow = 0;
+var hasDriver = false;
+
+function setDriver(bubble) {
+	driverNow = bubble;
+}
 function driver(bubble) {
-	var directionArrow = game.add.sprite(bubble.x, bubble.y, 'driverArrow');
-	directionArrow.rotate(bubble.x, bubble.y, bubble.body.angle, true);
+	//var directionArrow = game.add.sprite(bubble.x, bubble.y, 'driverArrow');
+	//directionArrow.rotate(bubble.x, bubble.y, bubble.body.angle, true);
+	setDriver(bubble);
+	hasDriver = true;
 	if (bubble.body.velocity.x > 0) {
 		bubble.body.velocity.x -= 10;
 	} else if (bubble.body.velocity.x < 0) {
@@ -156,16 +180,27 @@ function drunkNess(drunk) {
 		scoreText.text = 'Desire to be Drunk: '+ Math.round(drunkLevel*100)/100;
 	}
 }
+function cloudSpawn() {
+	var stand = objects.create((1200*Math.random()), game.world.height - (650 * Math.random()), 'cloud');
+	stand.body.immovable = true;
+}
+var nameNum = 0;
 function bubbleSpawn() {
 	bubble = blueBubbles.create((1200*Math.random()), game.world.height + 10, 'bubble1');
 	bubbleTraits(bubble);
 	bubbleR.push(bubble); 
+	bubble.events.onInputDown.add(function (s) {driver(s)});
 		
 	bubble2 = redBubbles.create((1200*Math.random()), game.world.height + 10, 'bubble2');
 	bubbleTraits(bubble2);
 	bubbleB.push(bubble2);
+	//bubble2.events.listener.onInputDown.add(driver(bubble));
+
+
 }
 function bubbleTraits(bubble) {
+	bubble.name = 'bubble' + nameNum.toString();
+	nameNum += 1;
 	bubble.anchor.setTo(0.5, 0.5);
 	bubble.body.gravity.y = -5;
 	bubble.body.bounce.y = .8;
