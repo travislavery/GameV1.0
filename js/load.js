@@ -15,6 +15,7 @@ var loadState={
 		game.load.image('floor', 'assets/images/platform.png');
 		game.load.image('cloud', 'assets/images/cloud.png');
 		game.load.image('driverArrow', 'assets/images/dArrow.png');
+		game.load.spritesheet('bubbleTrail', 'assets/sprites/bTrail.png', 50, 50);
 		game.load.spritesheet('muteButton', 'assets/sprites/muteButton.png', 128, 115);
 		game.load.spritesheet('dude', 'assets/sprites/dude.png', 32, 48);
 		game.load.spritesheet('beerStein', 'assets/sprites/beerStein.png', 135.7, 139);

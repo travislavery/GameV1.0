@@ -23,6 +23,7 @@ var upArrow;
 var downArrow;
 var bubble;
 var bubble2;
+var driverTrail;
 
 var playState={
 	create: function(){
@@ -59,7 +60,7 @@ var playState={
 		runner.body.collideWorldBounds= true;
 		runner.animations.add('run', [5, 6, 7, 8], 10, true);
 		
-		star = game.add.sprite(1100, 100, 'winObject');
+		star = game.add.sprite(1120, 100, 'winObject');
 		game.physics.arcade.enable(star);
 		star.anchor.setTo(0.5, 0.5);
 		star.enableBody= true;
@@ -143,7 +144,12 @@ function driver(bubble) {
 	//directionArrow.rotate(bubble.x, bubble.y, bubble.body.angle, true);
 	setDriver(bubble);
 	hasDriver = true;
-	if (bubble.body.velocity.x > 0) {
+
+	bubble.body.velocity.x = 0;
+	bubble.body.velocity.y = 0;
+	driverTrail = game.add.emitter()
+	//Harder to control, trying to set velocity to 0 instead.
+	/*if (bubble.body.velocity.x > 0) {
 		bubble.body.velocity.x -= 10;
 	} else if (bubble.body.velocity.x < 0) {
 		bubble.body.velocity.x += 10;
@@ -153,7 +159,7 @@ function driver(bubble) {
 		bubble.body.velocity.y -= 10;
 	} else if (bubble.body.velocity.y < 0) {
 		bubble.body.velocity.y += 10;
-	} 
+	} */
 
 	if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
 		bubble.body.angularVelocity = -200;
